@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100911">
+<title>POOPBOT MENU V1.5</title>
+<style>
+:root{--orange:#ff8c24;--gold:#ffd096;--cyan:#79ffdf;--ink:#100911;--text:#fff0dc}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:var(--ink)}
+body{min-height:100svh;overflow-x:hidden;background:radial-gradient(ellipse at 50% 12%,#49213d 0,transparent 44%),radial-gradient(ellipse at 88% 84%,#3a2115 0,transparent 35%),linear-gradient(145deg,#09060d,#170d19 55%,#09070b)}
+#particles{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.1;background-image:linear-gradient(#ff9d4b 1px,transparent 1px),linear-gradient(90deg,#ff9d4b 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(transparent,#000 18%,#000 80%,transparent);transform:perspective(450px) rotateX(58deg) scale(1.8) translateY(18%)}
+.stage{position:relative;z-index:1;min-height:100svh;display:grid;place-items:center;padding:24px 14px;perspective:1200px}
+.menu{width:min(940px,100%);position:relative;transform-style:preserve-3d;animation:enter .8s ease both;transition:transform .18s}
+.case{position:relative;padding:clamp(15px,3vw,26px);border:2px solid #ff962e;border-radius:19px;background:linear-gradient(145deg,#2d1a2b,#180e1b 46%,#100b13);box-shadow:0 2px 0 #ffce84 inset,0 0 0 4px #351a24,0 10px 0 #08050a,0 18px 35px #000b,0 0 35px #ff791d29,inset 0 0 24px #ff7d1812;transform-style:preserve-3d;overflow:hidden}
+.case:before{content:"";position:absolute;inset:7px;border:1px solid #ffad5e66;border-radius:12px;pointer-events:none}
+.case:after{content:"";position:absolute;top:0;left:-35%;width:25%;height:150%;background:linear-gradient(90deg,transparent,#fff2,transparent);transform:skewX(-24deg);animation:sweep 7s ease-in-out infinite;pointer-events:none}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:0 2px 13px;font-size:9px;font-weight:800;letter-spacing:2px;color:#d9a67e}
+.pill{border:1px solid #ff9a46aa;border-radius:50px;padding:6px 9px;color:var(--cyan);white-space:nowrap}
+.header{position:relative;text-align:center;padding:18px 0 26px;isolation:isolate;transform:translateZ(26px)}
+.logo{position:relative;z-index:2;display:inline-block;color:var(--gold);font-size:clamp(37px,8.5vw,76px);font-weight:1000;line-height:.98;letter-spacing:clamp(3px,1vw,9px);text-shadow:0 2px 0 #9a4c19,0 4px 0 #6c2b10,0 6px 0 #381708,0 8px 18px #000b,0 0 20px #ff922d,0 0 46px #ff791d66;animation:glow 2.7s ease-in-out infinite}
+.subtitle{position:relative;z-index:2;margin-top:12px;font-size:10px;font-weight:900;letter-spacing:4px;color:var(--cyan);text-shadow:0 0 14px #61ffdc77}
+.ring{position:absolute;z-index:1;left:50%;top:51%;width:clamp(170px,36vw,300px);height:44px;border:2px solid #ff9c3b99;border-radius:50%;transform:translate(-50%,-50%) rotateX(68deg) rotateZ(-12deg);box-shadow:0 0 13px #ff8d2a44,inset 0 0 12px #ff8d2a33;animation:orbit 8s linear infinite}
+.ring.two{width:clamp(205px,42vw,360px);height:66px;border-color:#6effdc66;animation-duration:12s;animation-direction:reverse}
+.ring.three{width:clamp(150px,30vw,255px);height:30px;border-color:#ffc47855;animation-duration:5s}
+.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;position:relative;z-index:2;transform:translateZ(18px)}
+.panel{min-width:0;padding:15px;border:1px solid #ff9a3a99;border-radius:12px;background:linear-gradient(150deg,#342032,#1d111f 67%,#170d18);box-shadow:0 5px 0 #09050c,0 8px 0 #542611,0 12px 20px #0009,inset 0 1px 0 #fff2;transform:translateZ(8px);transition:transform .2s,box-shadow .2s}
+.panel-title{display:flex;justify-content:space-between;gap:8px;margin:0 0 14px;padding:0 0 10px;border-bottom:1px solid #ff9b3b55;font-size:12px;letter-spacing:2px;color:var(--gold);font-weight:950}
+.panel-title span{font-size:9px;letter-spacing:1px;color:#d18b54}
+.btn{appearance:none;position:relative;display:block;width:100%;min-height:43px;margin:0 0 12px;padding:11px 10px;border:1px solid #ffd19a;border-radius:7px;background:linear-gradient(180deg,#ffdda8,#ffb151 22%,#f58b2b 60%,#c95c19);color:#331403;font:950 11px/1.2 system-ui,sans-serif;letter-spacing:1px;text-align:center;cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transform:translateY(0) translateZ(7px);transform-style:preserve-3d;box-shadow:0 3px 0 #ffdc9c inset,0 4px 0 #8b3d11,0 7px 0 #411c0c,0 10px 13px #0008;transition:transform 80ms ease,box-shadow 80ms ease,filter 120ms ease}
+.btn:before{content:"";position:absolute;left:7px;right:7px;top:4px;height:1px;background:#fff8;pointer-events:none}
+.btn:hover{filter:brightness(1.12)}.btn:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+.btn:active,.btn.pressed{transform:translateY(7px) translateZ(0);box-shadow:0 1px 0 #ffdc9c inset,0 0 0 #8b3d11,0 1px 0 #411c0c,0 3px 5px #0008}
+.btn.active{background:linear-gradient(180deg,#b4fff0,#76ebcf 35%,#29bca2 75%,#147e71);border-color:#bafff3;color:#062c28;box-shadow:0 3px 0 #e0fff9 inset,0 4px 0 #12635a,0 7px 0 #07332f,0 0 14px #36ffd533}
+.btn.active:active,.btn.active.pressed{box-shadow:0 1px 0 #e0fff9 inset,0 0 0 #12635a,0 1px 0 #07332f,0 3px 5px #0008}
+.btn:last-child{margin-bottom:0}
+.status{display:flex;justify-content:center;align-items:center;gap:8px;margin:21px 0 0;text-align:center;color:var(--cyan);font-size:10px;font-weight:850;letter-spacing:2px;text-shadow:0 0 12px #70ffdf55}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 1.5s infinite}
+.foot{margin-top:11px;text-align:center;color:#a98b9f;font-size:9px;letter-spacing:1.8px;line-height:1.6}
+.note{margin:13px auto 0;max-width:640px;color:#c9b6c7;font-size:10px;line-height:1.6;text-align:center}
+.hidden{display:none!important}.reopen{max-width:320px;margin:10px auto 0}
+@keyframes enter{from{opacity:0;transform:translateY(28px) rotateX(7deg) scale(.97)}to{opacity:1;transform:translateY(0) rotateX(0) scale(1)}}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
+@keyframes orbit{from{transform:translate(-50%,-50%) rotateX(68deg) rotateZ(0)}to{transform:translate(-50%,-50%) rotateX(68deg) rotateZ(360deg)}}
+@keyframes sweep{0%,70%,100%{left:-35%;opacity:0}76%{opacity:.8}92%{left:120%;opacity:0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+@media(max-width:540px){.stage{padding:15px 9px}.case{padding:13px}.panels{gap:10px}.panel{padding:10px}.panel-title{font-size:10px;letter-spacing:1px}.panel-title span{font-size:8px}.btn{padding:10px 5px;min-height:42px;font-size:9px;letter-spacing:.35px}.header{padding:13px 0 22px}.topline{font-size:8px;letter-spacing:1px}.pill{padding:5px 7px}.note{font-size:9px}}
+@media(max-width:350px){.panels{grid-template-columns:1fr}.panel{padding:12px}.btn{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<canvas id="particles" aria-hidden="true"></canvas><div class="grid" aria-hidden="true"></div>
+<div class="stage"><main class="menu" id="menu"><div class="case">
+<div class="topline"><span>PB // INTERFACE SYSTEM</span><span class="pill">V1.5 • PREVIEW</span></div>
+<header class="header"><div class="ring"></div><div class="ring two"></div><div class="ring three"></div><div class="logo">POOPBOT</div><div class="subtitle">VR CONTROL DECK</div></header>
+<div class="panels">
+<section class="panel" aria-label="Movement preview controls"><h2 class="panel-title">MOVEMENT <span>01 / DEMO</span></h2><button class="btn" data-toggle="LONG ARMS">LONG ARMS: OFF</button><button class="btn" data-toggle="FLIGHT">FLIGHT: OFF</button><button class="btn" data-toggle="SPEED">SPEED: OFF</button><button class="btn" data-toggle="LOW GRAVITY">LOW GRAVITY: OFF</button></section>
+<section class="panel" aria-label="System preview controls"><h2 class="panel-title">SYSTEM <span>02 / DEMO</span></h2><button class="btn" data-action="sound">LOCAL SOUND: OFF</button><button class="btn" data-action="beep">PLAY TEST TONE</button><button class="btn" data-action="reset">RESET DEMO</button><button class="btn" data-action="close">CLOSE MENU</button></section>
+</div>
+<div class="status" role="status" aria-live="polite"><span class="status-dot"></span><span id="status">SYSTEM READY • UI PREVIEW</span></div>
+<div class="foot">INTERACTIVE DESIGN PROTOTYPE<br>NOT CONNECTED TO GORILLA TAG</div></div>
+<p class="note">Touch a button to test the raised 3D press effect. Gameplay controls only change preview state; they do not change Gorilla Tag.</p>
+</main></div>
+<script>
+(()=>{const status=document.getElementById('status'),menu=document.getElementById('menu'),soundButton=document.querySelector('[data-action="sound"]');let soundEnabled=false,audioContext=null,timer;
+function message(text){status.textContent=text;clearTimeout(timer);timer=setTimeout(()=>status.textContent='SYSTEM READY • UI PREVIEW',2600)}
+document.querySelectorAll('button').forEach(button=>{button.addEventListener('pointerdown',()=>button.classList.add('pressed'));['pointerup','pointercancel','pointerleave'].forEach(name=>button.addEventListener(name,()=>button.classList.remove('pressed')));button.addEventListener('click',()=>{if(button.dataset.toggle){const on=button.classList.toggle('active');button.textContent=button.dataset.toggle+': '+(on?'ON':'OFF');message(button.dataset.toggle+' PREVIEW '+(on?'ENABLED':'DISABLED'));return}const action=button.dataset.action;if(action==='sound'){soundEnabled=!soundEnabled;button.classList.toggle('active',soundEnabled);button.textContent='LOCAL SOUND: '+(soundEnabled?'ON':'OFF');message('LOCAL SOUND DEMO '+(soundEnabled?'ENABLED':'DISABLED'))}else if(action==='beep'){playTone()}else if(action==='reset'){document.querySelectorAll('[data-toggle]').forEach(b=>{b.classList.remove('active');b.textContent=b.dataset.toggle+': OFF'});soundEnabled=false;soundButton.classList.remove('active');soundButton.textContent='LOCAL SOUND: OFF';message('DEMO RESET')}else if(action==='close'){menu.classList.add('hidden');const reopen=document.createElement('button');reopen.className='btn reopen';reopen.textContent='OPEN POOPBOT MENU';reopen.addEventListener('pointerdown',()=>reopen.classList.add('pressed'));['pointerup','pointercancel','pointerleave'].forEach(n=>reopen.addEventListener(n,()=>reopen.classList.remove('pressed')));reopen.addEventListener('click',()=>{menu.classList.remove('hidden');reopen.remove();message('SYSTEM READY • UI PREVIEW')});document.querySelector('.stage').appendChild(reopen)}})});
+function playTone(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC){message('AUDIO NOT SUPPORTED');return}if(!audioContext)audioContext=new AC();if(audioContext.state==='suspended')audioContext.resume();const osc=audioContext.createOscillator(),gain=audioContext.createGain();osc.type='triangle';osc.frequency.setValueAtTime(660,audioContext.currentTime);osc.frequency.exponentialRampToValueAtTime(880,audioContext.currentTime+.11);gain.gain.setValueAtTime(.0001,audioContext.currentTime);gain.gain.exponentialRampToValueAtTime(.12,audioContext.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+.19);osc.connect(gain);gain.connect(audioContext.destination);osc.start();osc.stop(audioContext.currentTime+.2);message('TEST TONE PLAYED')}catch(e){message('AUDIO UNAVAILABLE')}}
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');let w=0,h=0,dpr=1,particles=[];function resize(){dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0);particles=Array.from({length:Math.min(90,Math.floor(w/13))},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.7+.3,v:Math.random()*.28+.06,a:Math.random()*.55+.13}))}
+function draw(){ctx.clearRect(0,0,w,h);particles.forEach(p=>{p.y-=p.v;if(p.y< -3){p.y=h+3;p.x=Math.random()*w}ctx.globalAlpha=p.a;ctx.fillStyle='#ffb25c';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()});ctx.globalAlpha=1;requestAnimationFrame(draw)}
+addEventListener('resize',resize,{passive:true});resize();draw();
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){menu.addEventListener('pointermove',e=>{const r=menu.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;menu.style.transform='rotateY('+(x*3)+'deg) rotateX('+(-y*3)+'deg)'});menu.addEventListener('pointerleave',()=>menu.style.transform='rotateY(0deg) rotateX(0deg)')}
+})();
+</script>
+</body>
+</html>
