@@ -6,6 +6,9 @@ on:
     paths:
       - "index.html"
       - "vr.mjs"
+      - "README.md"
+      - ".devcontainer/devcontainer.json"
+      - "scripts/preview.sh"
       - ".github/workflows/validate.yml"
   workflow_dispatch:
 
@@ -81,3 +84,9 @@ jobs:
           assert "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js" in module, "Missing pinned Three.js module"
           print("Entry point, local assets, and pinned 3D engine check: PASS")
           PY
+      - name: Check private Codespaces preview configuration
+        run: |
+          python -m json.tool .devcontainer/devcontainer.json > /dev/null
+          bash -n scripts/preview.sh
+          grep -q 'python3 -m http.server 8000 --bind 0.0.0.0' scripts/preview.sh
+          echo "Codespaces preview configuration: PASS"
