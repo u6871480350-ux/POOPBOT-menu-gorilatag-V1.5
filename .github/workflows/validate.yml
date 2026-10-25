@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "index.html"
+      - "vr.mjs"
       - ".github/workflows/validate.yml"
   workflow_dispatch:
 
@@ -54,7 +55,9 @@ jobs:
           checker.close()
 
           assert "<title>POOPBOT MENU V1.5</title>" in source, "Missing page title"
-          assert checker.buttons == 8, f"Expected 8 demo buttons; found {checker.buttons}"
+          assert checker.buttons == 9, f"Expected 9 buttons including VR launcher; found {checker.buttons}"
+          assert 'id="enter-vr"' in source, "Missing immersive VR launcher"
+          assert 'src="./vr.mjs"' in source, "Missing WebXR module"
           assert 'data-toggle="LONG ARMS"' in source, "Missing Long Arms demo control"
           assert 'data-toggle="FLIGHT"' in source, "Missing Flight demo control"
           assert 'data-action="reset"' in source, "Missing Reset button"
@@ -65,12 +68,16 @@ jobs:
           PY
       - name: Check JavaScript syntax
         run: node --check /tmp/poopbot-inline.js
-      - name: Confirm no remote scripts or image assets
+      - name: Check WebXR module syntax
+        run: node --check vr.mjs
+      - name: Confirm local entry point and pinned 3D engine
         run: |
           python - <<'PY'
           from pathlib import Path
           source = Path("index.html").read_text(encoding="utf-8").lower()
-          assert '<script src="http' not in source, "Unexpected remote script dependency"
+          assert '<script src="http' not in source, "Unexpected remote script tag"
           assert '<img ' not in source, "Unexpected image dependency"
-          print("Self-contained page dependency check: PASS")
+          module = Path("vr.mjs").read_text(encoding="utf-8")
+          assert "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js" in module, "Missing pinned Three.js module"
+          print("Entry point, local assets, and pinned 3D engine check: PASS")
           PY
