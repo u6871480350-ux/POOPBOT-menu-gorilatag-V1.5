@@ -1,27 +1,34 @@
 # POOPBOT MENU V1.5
 
-A lightweight, animated orange-and-dark **VR-style menu prototype**.
+A lightweight orange-and-dark menu prototype with a **separate immersive WebXR mode** for compatible VR browsers.
 
-## What is included
+## What's included
 
-- Original-style two-panel layout
+- Original-inspired two-panel layout and POOPBOT text logo
 - Raised buttons that press down when touched or clicked
-- Animated holographic rings, glow sweep, and background particles
-- Responsive phone-sized layout
-- Demo toggles, a reset button, and a browser test tone
+- Animated orange holographic rings, glow sweep, and particles
+- Flat browser preview for phones and desktops
+- Immersive 3D scene with controller pointer rays and trigger-to-select interaction, using a pinned Three.js module
+- Demo-only toggles, reset, and a local test tone
+- Automated static HTML and JavaScript checks
 
-## Local preview
+## Try the VR mode
 
-Open `index.html` in a modern browser. The site uses plain HTML, CSS and JavaScript, with no external libraries or image assets.
+1. Open the site over HTTPS in the Meta Quest Browser on the Quest 3.
+2. Wait for **ENTER IMMERSIVE VR** to become enabled.
+3. Select it, allow the browser to start immersive VR, then point either controller at the raised buttons and pull the trigger.
+4. Use the headset system menu to leave VR.
 
-## Validation and publishing
+On a phone or a browser without immersive WebXR support, the VR button stays disabled and the normal 2D preview remains available.
 
-A GitHub Actions workflow runs static checks on every push. Publishing is intentionally **manual** so this does not go live before the owner tests it.
+## Tests and publishing
 
-1. Open **Actions** and make sure **Validate POOPBOT prototype** passes.
-2. Preview `index.html` in a browser, including touch/button behavior and the audio test.
-3. When you are ready to publish the website, open **Settings → Pages**, set the source to **GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
+The **Validate POOPBOT prototype** workflow checks the HTML structure, expected controls, inline JavaScript syntax, WebXR module syntax, and the pinned Three.js import. These are automated source checks, not a replacement for testing in a physical headset.
 
-## Important
+Website publishing remains **manual** until the owner tries the VR preview. To publish later, enable GitHub Pages with **Settings → Pages → Source: GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
 
-This is a **web UI prototype**, not a Gorilla Tag mod. The Long Arms, Flight, Speed, and Low Gravity buttons only change the preview UI; they do not alter the game. Gorilla Tag's official Code of Conduct currently says “NO CHEATS OR MODS,” so this repository does not include game-injection or gameplay-cheat code. See the [official Code of Conduct](https://www.gorillatagvr.com/contact).
+## Scope and safety
+
+This project is a separate VR-browser menu demo, **not a Gorilla Tag mod and not an overlay inside Gorilla Tag**. The Long Arms, Flight, Speed, and Low Gravity controls only toggle visual demo states; they do not modify any game. It does not inject into a game or bypass a game's rules. The official Gorilla Tag conduct rules prohibit cheats and mods; see the [official Code of Conduct](https://www.gorillatagvr.com/contact).
+
+The immersive mode loads its pinned Three.js module from jsDelivr, so the Quest Browser needs internet access.
