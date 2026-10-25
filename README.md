@@ -8,27 +8,32 @@ A lightweight orange-and-dark menu prototype with a **separate immersive WebXR m
 - Raised buttons that press down when touched or clicked
 - Animated orange holographic rings, glow sweep, and particles
 - Flat browser preview for phones and desktops
-- Immersive 3D scene with controller pointer rays and trigger-to-select interaction, using a pinned Three.js module
+- Immersive 3D scene with controller pointer rays and trigger-to-select interaction
 - Demo-only toggles, reset, and a local test tone
 - Automated static HTML and JavaScript checks
 
-## Try the VR mode
+## Try it privately in Codespaces
 
-1. Open the site over HTTPS in the Meta Quest Browser on the Quest 3.
-2. Wait for **ENTER IMMERSIVE VR** to become enabled.
-3. Select it, allow the browser to start immersive VR, then point either controller at the raised buttons and pull the trigger.
-4. Use the headset system menu to leave VR.
+This keeps GitHub Pages unpublished while you test the menu.
 
-On a phone or a browser without immersive WebXR support, the VR button stays disabled and the normal 2D preview remains available.
+1. Open this repository in your GitHub Codespace.
+2. In the terminal, run: `bash scripts/preview.sh`.
+3. Open the **Ports** tab and locate port **8000**.
+4. Open that port in the browser and copy the forwarded **HTTPS** URL.
+5. In your Quest 3, open Meta Quest Browser and visit that URL.
+6. Wait for **ENTER IMMERSIVE VR** to become enabled, select it, then point a controller at a button and pull the trigger.
+7. Use the headset system menu to leave VR.
+
+Port 8000 is configured as **private** by default. If you are asked to authenticate, sign in to the same GitHub account that owns the Codespace. If immersive VR is unavailable, check that you opened the HTTPS forwarded-port URL in Quest Browser.
 
 ## Tests and publishing
 
-The **Validate POOPBOT prototype** workflow checks the HTML structure, expected controls, inline JavaScript syntax, WebXR module syntax, and the pinned Three.js import. These are automated source checks, not a replacement for testing in a physical headset.
+The **Validate POOPBOT prototype** workflow checks the HTML structure, expected controls, inline JavaScript syntax, WebXR module syntax, and the pinned Three.js import. These automated source checks are not a replacement for physical-headset testing.
 
-Website publishing remains **manual** until the owner tries the VR preview. To publish later, enable GitHub Pages with **Settings → Pages → Source: GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
+GitHub Pages publishing remains **manual**. After the Quest test is satisfactory, enable Pages with **Settings → Pages → Source: GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
 
 ## Scope and safety
 
-This project is a separate VR-browser menu demo, **not a Gorilla Tag mod and not an overlay inside Gorilla Tag**. The Long Arms, Flight, Speed, and Low Gravity controls only toggle visual demo states; they do not modify any game. It does not inject into a game or bypass a game's rules. The official Gorilla Tag conduct rules prohibit cheats and mods; see the [official Code of Conduct](https://www.gorillatagvr.com/contact).
+This project is a separate VR-browser menu demo, **not a Gorilla Tag mod and not an overlay inside Gorilla Tag**. The Long Arms, Flight, Speed, and Low Gravity controls only toggle visual demo states; they do not modify any game. It does not inject into a game or bypass a game's rules. The official Gorilla Tag Code of Conduct prohibits cheats and mods; see the [official Code of Conduct](https://www.gorillatagvr.com/contact).
 
 The immersive mode loads its pinned Three.js module from jsDelivr, so the Quest Browser needs internet access.
