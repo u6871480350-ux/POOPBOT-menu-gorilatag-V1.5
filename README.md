@@ -1,26 +1,27 @@
 # POOPBOT MENU V1.5
 
-A lightweight, animated orange-and-dark VR-style menu prototype.
+A lightweight, animated orange-and-dark **VR-style menu prototype**.
 
-## Preview
-
-Open `index.html` locally or enable GitHub Pages to host it. The page uses plain HTML, CSS and JavaScript. No external library or image assets are required.
-
-## Included
+## What is included
 
 - Original-style two-panel layout
-- Raised orange buttons that press down when clicked or touched
-- Animated holographic rings, glow, sweep effect and background particles
+- Raised buttons that press down when touched or clicked
+- Animated holographic rings, glow sweep, and background particles
 - Responsive phone-sized layout
-- Demo toggles, a reset button and a browser test tone
+- Demo toggles, a reset button, and a browser test tone
 
-## Publish with GitHub Pages
+## Local preview
 
-1. Open **Settings → Pages** in this repository.
-2. For **Build and deployment**, select **GitHub Actions**.
-3. The workflow in `.github/workflows/pages.yml` deploys `index.html` when changes are pushed to `main`.
-4. After the workflow succeeds, open the Pages link shown in **Settings → Pages**.
+Open `index.html` in a modern browser. The site uses plain HTML, CSS and JavaScript, with no external libraries or image assets.
+
+## Validation and publishing
+
+A GitHub Actions workflow runs static checks on every push. Publishing is intentionally **manual** so this does not go live before the owner tests it.
+
+1. Open **Actions** and make sure **Validate POOPBOT prototype** passes.
+2. Preview `index.html` in a browser, including touch/button behavior and the audio test.
+3. When you are ready to publish the website, open **Settings → Pages**, set the source to **GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
 
 ## Important
 
-This repository currently contains a **web UI prototype only**. The Long Arms, Flight, Speed and Low Gravity buttons change the demo's appearance/state; they do not change Gorilla Tag and are not an installed Quest mod. An in-game version needs a separate compatible mod project and real-device testing.
+This is a **web UI prototype**, not a Gorilla Tag mod. The Long Arms, Flight, Speed, and Low Gravity buttons only change the preview UI; they do not alter the game. Gorilla Tag's official Code of Conduct currently says “NO CHEATS OR MODS,” so this repository does not include game-injection or gameplay-cheat code. See the [official Code of Conduct](https://www.gorillatagvr.com/contact).
