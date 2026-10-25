@@ -1,11 +1,7 @@
-name: Deploy POOPBOT site to GitHub Pages
+name: Publish POOPBOT site to GitHub Pages
 
+# Publishing is deliberately manual until the owner finishes testing.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "index.html"
-      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
