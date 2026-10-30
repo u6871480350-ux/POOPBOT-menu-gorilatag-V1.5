@@ -45,7 +45,7 @@ function makeButton(label,id,x,y,w=.67,active=false){
  book.add(group);buttons.push(group);hitTargets.push(face);return group;
 }
 function makeNav(label,page,x){
- const b=makeButton(label,'page:'+page,x,.365,.275);navButtons.push(b);return b;
+ const b=makeButton(label,'page:'+page,x,.29,.275);buttons.pop();navButtons.push(b);return b;
 }
 function disposeMap(material){if(material?.map)material.map.dispose();}
 function updateButton(b,label,on=false){
@@ -106,7 +106,7 @@ function playTone(){
 }
 function setStatus(message){announce(message);if(!statusMesh)return;const old=statusMesh.material.map;statusMesh.material.map=canvasTexture(message,'status');statusMesh.material.needsUpdate=true;if(old)old.dispose();}
 function activate(b){
- const id=b.userData.id; b.userData.pressed=true;addHaptics();
+ const id=b.userData.id; b.userData.pressed=true;setTimeout(()=>{b.userData.pressed=false;},150);addHaptics();
  if(id.startsWith('page:')){const page=id.slice(5);buildPage(page);setStatus(page.toUpperCase()+' PAGE');return;}
  if(id.startsWith('setting:')){
   const key=id.slice(8);settings[key]=!settings[key];saveSettings();buildPage(activePage);setStatus(currentSettingLabel(key)+' '+(settings[key]?'ON':'OFF'));return;
