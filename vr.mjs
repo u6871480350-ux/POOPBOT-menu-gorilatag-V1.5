@@ -112,7 +112,8 @@ function activate(b){
   const key=id.slice(8);settings[key]=!settings[key];saveSettings();buildPage(activePage);setStatus(currentSettingLabel(key)+' '+(settings[key]?'ON':'OFF'));return;
  }
  if(id==='volume:-'||id==='volume:+'){settings.volume=Math.max(0,Math.min(100,settings.volume+(id.endsWith('-')?-5:5)));saveSettings();buildPage('audio');setStatus('VOLUME '+settings.volume+'%');return;}
- if(id==='tone'){playTone();return;}\n if(id==='volume:show'){setStatus('MASTER VOLUME '+settings.volume+'%');return;}
+ if(id==='tone'){playTone();return;}
+ if(id==='volume:show'){setStatus('MASTER VOLUME '+settings.volume+'%');return;}
  if(id==='reset'){settings={...DEFAULTS};saveSettings();buildPage('settings');setStatus('SETTINGS RESET');return;}
  if(id==='info')setStatus('POOPBOT V2 • STANDALONE VR');
 }
