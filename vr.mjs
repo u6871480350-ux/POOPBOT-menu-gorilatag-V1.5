@@ -5,10 +5,10 @@ const statusEl=document.getElementById('status');
 const KEY='poopbot-v2-settings';
 const DEFAULTS={particles:true,glow:true,reducedMotion:false,sound:true,haptics:true,volume:35};
 let settings=loadSettings(),session=null,renderer=null,scene=null,camera=null,book=null,statusMesh=null;
-let hitTargets=[],buttons=[],navButtons=[],activePage='home',lastFrame=0,particlePoints=null;
+let hitTargets=[],buttons=[],navButtons=[],activePage='home',lastFrame=0,particlePoints=null,glowLights=[];
 const pages=['home','visuals','audio','settings','about'];
 function loadSettings(){try{return {...DEFAULTS,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{return {...DEFAULTS}}}
-function saveSettings(){try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}}
+function saveSettings(){try{localStorage.setItem(KEY,JSON.stringify(settings))}catch{}window.dispatchEvent(new CustomEvent('poopbot:vrsettings',{detail:{...settings}}));}
 function announce(message){if(statusEl)statusEl.textContent=message;}
 function canvasTexture(text,kind='button',active=false){
  const c=document.createElement('canvas');c.width=1024;c.height=kind==='logo'?220:128;
@@ -91,7 +91,7 @@ function refreshNav(){
 }
 function addHaptics(){
  if(!settings.haptics||!session)return;
- try{for(const source of session.inputSources){const actuator=source.gamepad?.hapticActuators?.[0];if(actuator?.pulse)actuator.pulse(.25,.035).catch(()=>{});}}catch{}
+ try{for(const source of session.inputSources){const actuator=source.gamepad?.hapticActuators?.[0];if(actuator?.pulse)Promise.resolve(actuator.pulse(.25,.035)).catch(()=>{});}}catch{}
 }
 let audioContext=null;
 function playTone(){
@@ -122,7 +122,7 @@ function makeScene(){
  camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.05,30);
  scene.add(new THREE.HemisphereLight(0xd5f4ff,0x101521,2));
  const blue=new THREE.PointLight(0x35caff,10,4);blue.position.set(-.8,.5,-1.2);scene.add(blue);
- const cool=new THREE.PointLight(0x8cecff,5,3);cool.position.set(.9,-.4,-1.5);scene.add(cool);
+ const cool=new THREE.PointLight(0x8cecff,5,3);cool.position.set(.9,-.4,-1.5);scene.add(cool);glowLights=[blue,cool];
  book=new THREE.Group();book.position.set(0,0,-1.55);scene.add(book);
  addPanel(book,1.55,1.17,0,0,0);
  addPanel(book,.73,1.08,-.395,0,.028);
@@ -153,13 +153,13 @@ function animate(t){
  for(const b of buttons.concat(navButtons)){const d=b.userData;const target=d.baseZ+(d.pressed?-.035:d.hovered?.012:0);b.position.z+=(target-b.position.z)*.35;if(d.pressed&&t-lastFrame>.2)d.pressed=false;}
  if(book&&!settings.reducedMotion)book.position.y=Math.sin(t*.75)*.006;
  if(particlePoints)particlePoints.visible=settings.particles;
- if(particlePoints?.material)particlePoints.material.opacity=settings.glow?.55:.18;
+ if(particlePoints?.material)particlePoints.material.opacity=settings.glow?.55:.18;glowLights.forEach((light,i)=>{light.intensity=settings.glow?(i===0?10:5):0;});
  lastFrame=t;
 }
 function cleanup(){
  if(renderer){renderer.setAnimationLoop(null);renderer.domElement.remove();renderer.dispose();}
  if(scene)scene.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material]){disposeMap(m);m.dispose();}}});
- session=null;renderer=null;scene=null;camera=null;book=null;statusMesh=null;hitTargets=[];buttons=[];navButtons=[];particlePoints=null;
+ session=null;renderer=null;scene=null;camera=null;book=null;statusMesh=null;hitTargets=[];buttons=[];navButtons=[];particlePoints=null;glowLights=[];
  launch.disabled=false;launch.textContent='ENTER IMMERSIVE VR';announce('VR SESSION ENDED • V2.0');
 }
 async function startVR(){
