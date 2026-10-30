@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "POOPBOT MENU V2",
+  "short_name": "POOPBOT V2",
+  "description": "Independent immersive VR control deck for Meta Quest.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#080d16",
+  "theme_color": "#080d16",
+  "categories": ["games", "utilities"],
+  "icons": [
+    {"src":"./icons/poopbot.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
