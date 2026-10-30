@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "com.unity.xr.management": "4.4.0",
+    "com.unity.xr.openxr": "1.10.0"
+  }
+}
