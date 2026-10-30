@@ -1,92 +1,34 @@
-name: Validate POOPBOT prototype
-
+name: Validate POOPBOT MENU V2
 on:
   push:
-    branches: [main]
-    paths:
-      - "index.html"
-      - "vr.mjs"
-      - "README.md"
-      - ".devcontainer/devcontainer.json"
-      - "scripts/preview.sh"
-      - ".github/workflows/validate.yml"
+    branches: [main, v2-standalone-quest]
+  pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out source
-        uses: actions/checkout@v4
-      - name: Validate HTML structure and expected controls
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate HTML and required controls
         run: |
           python - <<'PY'
-          from html.parser import HTMLParser
           from pathlib import Path
-
-          source = Path("index.html").read_text(encoding="utf-8")
-
-          class Checker(HTMLParser):
-              def __init__(self):
-                  super().__init__(convert_charrefs=True)
-                  self.buttons = 0
-                  self.scripts = []
-                  self.in_script = False
-                  self.current_script = []
-
-              def handle_starttag(self, tag, attrs):
-                  if tag == "button":
-                      self.buttons += 1
-                  if tag == "script":
-                      self.in_script = True
-                      self.current_script = []
-
-              def handle_data(self, data):
-                  if self.in_script:
-                      self.current_script.append(data)
-
-              def handle_endtag(self, tag):
-                  if tag == "script" and self.in_script:
-                      self.scripts.append("".join(self.current_script))
-                      self.in_script = False
-
-          checker = Checker()
-          checker.feed(source)
-          checker.close()
-
-          assert "<title>POOPBOT MENU V1.5</title>" in source, "Missing page title"
-          assert checker.buttons == 9, f"Expected 9 buttons including VR launcher; found {checker.buttons}"
-          assert 'id="enter-vr"' in source, "Missing immersive VR launcher"
-          assert 'src="./vr.mjs"' in source, "Missing WebXR module"
-          assert 'data-toggle="LONG ARMS"' in source, "Missing Long Arms demo control"
-          assert 'data-toggle="FLIGHT"' in source, "Missing Flight demo control"
-          assert 'data-action="reset"' in source, "Missing Reset button"
-          assert "NOT CONNECTED TO GORILLA TAG" in source, "Missing prototype scope notice"
-          assert checker.scripts, "No inline JavaScript found"
-          Path("/tmp/poopbot-inline.js").write_text("\n".join(checker.scripts), encoding="utf-8")
-          print("HTML structure and expected controls: PASS")
+          html=Path("index.html").read_text()
+          for token in ['POOPBOT MENU V2','data-view="home"','data-view="visuals"','data-view="audio"','data-view="settings"','data-view="about"','id="enter-vr"','id="test-sound"','id="reset-settings"','./app.js','./vr.mjs','manifest.webmanifest']:
+              assert token in html, f"Missing: {token}"
+          print("HTML feature markers: PASS")
           PY
       - name: Check JavaScript syntax
-        run: node --check /tmp/poopbot-inline.js
-      - name: Check WebXR module syntax
-        run: node --check vr.mjs
-      - name: Confirm local entry point and pinned 3D engine
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          source = Path("index.html").read_text(encoding="utf-8").lower()
-          assert '<script src="http' not in source, "Unexpected remote script tag"
-          assert '<img ' not in source, "Unexpected image dependency"
-          module = Path("vr.mjs").read_text(encoding="utf-8")
-          assert "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js" in module, "Missing pinned Three.js module"
-          print("Entry point, local assets, and pinned 3D engine check: PASS")
-          PY
-      - name: Check private Codespaces preview configuration
-        run: |
-          python -m json.tool .devcontainer/devcontainer.json > /dev/null
-          bash -n scripts/preview.sh
-          grep -q 'python3 -m http.server 8000 --bind 0.0.0.0' scripts/preview.sh
-          echo "Codespaces preview configuration: PASS"
+          node --check app.js
+          node --check vr.mjs
+          node --check sw.js
+      - name: Validate web app manifest
+        run: python -m json.tool manifest.webmanifest > /dev/null
+      - name: Check preview launcher
+        run: bash -n scripts/preview.sh
