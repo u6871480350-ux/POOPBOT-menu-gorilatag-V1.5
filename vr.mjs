@@ -35,13 +35,13 @@ function addPanel(parent,w,h,x,y,z){
  const geo=new THREE.BoxGeometry(w,h,.035),mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:0x142438,metalness:.38,roughness:.35,emissive:0x071a2b,emissiveIntensity:.4}));
  mesh.position.set(x,y,z);parent.add(mesh);const edge=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:0x4abfe8}));edge.position.copy(mesh.position);parent.add(edge);return mesh;
 }
-function makeButton(label,id,x,y,w=.67){
+function makeButton(label,id,x,y,w=.67,active=false){
  const group=new THREE.Group();group.position.set(x,y,.105);
  const body=new THREE.Mesh(new THREE.BoxGeometry(w,.105,.065),new THREE.MeshStandardMaterial({color:0x117da6,metalness:.42,roughness:.3,emissive:0x07324a,emissiveIntensity:.45}));
  group.add(body);
- const face=new THREE.Mesh(new THREE.PlaneGeometry(w-.018,.087),new THREE.MeshBasicMaterial({map:canvasTexture(label,'button'),side:THREE.DoubleSide}));
+ const face=new THREE.Mesh(new THREE.PlaneGeometry(w-.018,.087),new THREE.MeshBasicMaterial({map:canvasTexture(label,'button',active),side:THREE.DoubleSide}));
  face.position.z=.034;face.userData.buttonRoot=group;group.add(face);
- group.userData={id,label,on:false,baseZ:.105,pressed:false,hovered:false,body,face};
+ group.userData={id,label,on:active,baseZ:.105,pressed:false,hovered:false,body,face};
  book.add(group);buttons.push(group);hitTargets.push(face);return group;
 }
 function makeNav(label,page,x){
@@ -112,7 +112,7 @@ function activate(b){
   const key=id.slice(8);settings[key]=!settings[key];saveSettings();buildPage(activePage);setStatus(currentSettingLabel(key)+' '+(settings[key]?'ON':'OFF'));return;
  }
  if(id==='volume:-'||id==='volume:+'){settings.volume=Math.max(0,Math.min(100,settings.volume+(id.endsWith('-')?-5:5)));saveSettings();buildPage('audio');setStatus('VOLUME '+settings.volume+'%');return;}
- if(id==='tone'){playTone();return;}
+ if(id==='tone'){playTone();return;}\n if(id==='volume:show'){setStatus('MASTER VOLUME '+settings.volume+'%');return;}
  if(id==='reset'){settings={...DEFAULTS};saveSettings();buildPage('settings');setStatus('SETTINGS RESET');return;}
  if(id==='info')setStatus('POOPBOT V2 • STANDALONE VR');
 }
