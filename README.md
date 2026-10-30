@@ -1,39 +1,48 @@
-# POOPBOT MENU V1.5
+# POOPBOT MENU V2
 
-A lightweight orange-and-dark menu prototype with a **separate immersive WebXR mode** for compatible VR browsers.
+An independent, installable Quest-friendly VR interface. It is **not a Gorilla Tag mod** and does not inject into or modify another game.
 
-## What's included
+## What V2 includes
 
-- Original-inspired two-panel layout and POOPBOT text logo
-- Raised buttons that press down when touched or clicked
-- Animated orange holographic rings, glow sweep, and particles
-- Flat browser preview for phones and desktops
-- Immersive 3D scene with controller pointer rays and trigger-to-select interaction
-- Demo-only toggles, reset, and a local test tone
-- Automated static HTML and JavaScript checks
+- Dark graphite/brown-black book-inspired interface with cyan/blue lighting
+- Five working pages: Home, Visuals, Audio, Settings and About
+- Functional page navigation and animated page transitions
+- Settings toggles for particles, glow, reduced motion, sound and controller haptics
+- Master-volume control and test tone
+- Automatic local preference saving with reset
+- Installable web-app manifest and service worker for the app shell
+- Immersive WebXR book interface with controller ray selection
+- Quest/browser support detection and clear failure messages
 
-## Try it privately in Codespaces
+## Run in GitHub Codespaces
 
-This keeps GitHub Pages unpublished while you test the menu.
+1. Open the repository in Codespaces.
+2. Run `bash scripts/preview.sh`.
+3. In the Ports tab, open port 8000 and use its HTTPS forwarded URL.
+4. Open that HTTPS URL in Meta Quest Browser.
+5. If the browser offers **Install app** or **Add to Home**, use it to add POOPBOT V2 to the headset's app/library experience.
+6. Select **ENTER IMMERSIVE VR** and point a controller at a menu button, then pull the trigger.
 
-1. Open this repository in your GitHub Codespace.
-2. In the terminal, run: `bash scripts/preview.sh`.
-3. Open the **Ports** tab and locate port **8000**.
-4. Open that port in the browser and copy the forwarded **HTTPS** URL.
-5. In your Quest 3, open Meta Quest Browser and visit that URL.
-6. Wait for **ENTER IMMERSIVE VR** to become enabled, select it, then point a controller at a button and pull the trigger.
-7. Use the headset system menu to leave VR.
+For desktop/mobile preview, open the same HTTPS URL in a normal browser. WebXR requires a supported headset/browser and a secure context (HTTPS or localhost).
 
-Port 8000 is configured as **private** by default. If you are asked to authenticate, sign in to the same GitHub account that owns the Codespace. If immersive VR is unavailable, check that you opened the HTTPS forwarded-port URL in Quest Browser.
+## Important packaging note
 
-## Tests and publishing
+This repository delivers an installable **Progressive Web App (PWA)** using Quest Browser. It does not produce a native Android APK. A native Quest APK requires a separate Android/OpenXR project, Android SDK/NDK, signing configuration and testing on a physical headset. Do not label this PWA as an APK.
 
-The **Validate POOPBOT prototype** workflow checks the HTML structure, expected controls, inline JavaScript syntax, WebXR module syntax, and the pinned Three.js import. These automated source checks are not a replacement for physical-headset testing.
+## Settings and offline behaviour
 
-GitHub Pages publishing remains **manual**. After the Quest test is satisfactory, enable Pages with **Settings → Pages → Source: GitHub Actions**, then manually run **Publish POOPBOT site to GitHub Pages** in the Actions tab.
+Preferences are saved in browser local storage on the current headset/browser profile. The service worker caches the app shell. The immersive 3D module uses a pinned Three.js dependency from jsDelivr, so first-time immersive startup and dependency updates require internet access. Browser support and installed-PWA WebXR support can vary.
 
-## Scope and safety
+## Validation
 
-This project is a separate VR-browser menu demo, **not a Gorilla Tag mod and not an overlay inside Gorilla Tag**. The Long Arms, Flight, Speed, and Low Gravity controls only toggle visual demo states; they do not modify any game. It does not inject into a game or bypass a game's rules. The official Gorilla Tag Code of Conduct prohibits cheats and mods; see the [official Code of Conduct](https://www.gorillatagvr.com/contact).
+The GitHub Actions workflow checks HTML structure, JavaScript syntax, JSON manifest validity, required page/control IDs, and service-worker syntax. Automated checks do not prove headset compatibility or performance. Physical Quest testing is still required.
 
-The immersive mode loads its pinned Three.js module from jsDelivr, so the Quest Browser needs internet access.
+## Project structure
+
+- `index.html`: responsive book-style interface
+- `app.js`: page navigation, local settings, audio and PWA registration
+- `vr.mjs`: immersive Three.js/WebXR book and controller interactions
+- `manifest.webmanifest`: installable app metadata
+- `sw.js`: offline app-shell cache
+- `icons/poopbot.svg`: app icon
+- `scripts/preview.sh`: Codespaces preview server
